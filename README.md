@@ -94,3 +94,6 @@ If you find any bug or just want to give your feedback (remember the ⭐ ^^), **
 - [v1.0](https://github.com/Inushin/dockerAngularNginxNodePostgreSQL/tree/v1.0) - Repository created - 26/06/2022
 - [v2.0](https://github.com/Inushin/dockerAngularNginxNodePostgreSQL/tree/v2.0) - Update to Angular 15 - 20/04/2023
 - [v2.1 - Current](https://github.com/Inushin/dockerAngularNginxNodePostgreSQL/tree/v2.1) - Update Dockerfiles and Node to Node 18.16 (Alpine) - 13/05/2023
+
+
+Thanks to Inushin for the example
