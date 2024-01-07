@@ -22,7 +22,7 @@
         "<node_internals>/**"
       ],
       "envFile": "${workspaceFolder}/.env",
-      "program": "${workspaceFolder}/backend/src/index.js"
+      "program": "${workspaceFolder}/backend/src/server.ts"
     }
   ]
 }
