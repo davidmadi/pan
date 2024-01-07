@@ -7,6 +7,16 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Launch Backend",
+      "program": "${workspaceFolder}/backend/dist/server.js",
+      "preLaunchTask": "tsc: build - tsconfig.json",
+      "skipFiles": [
+          "${workspaceFolder}/backend/node_modules/**/*.js"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Launch Program",
       "skipFiles": [
         "<node_internals>/**"
