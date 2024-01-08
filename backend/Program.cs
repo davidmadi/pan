@@ -35,9 +35,18 @@ builder.Services.AddHttpLogging(logging =>
     logging.ResponseBodyLogLimit = 4096;
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+                      policy  =>
+                      {
+                        policy.WithOrigins("http://localhost");
+                      });
+});
+
 var app = builder.Build();
 // app.UseHttpLogging();
-
+app.UseCors();
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 // {
@@ -51,7 +60,7 @@ var app = builder.Build();
     
 //}
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseExceptionHandler("/error");
 
