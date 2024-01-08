@@ -1,22 +1,19 @@
-FROM node:18.16.0-alpine3.17
+#docker build -t backapi .
+# syntax=docker/dockerfile:1
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+WORKDIR /app
 
-# Create app directory
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-WORKDIR /home/node/app
+# Copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
 
-# Install app dependencies
-COPY --chown=node:node package*.json ./
-# COPY --chown=node:node . .
-USER node
+# Copy everything else and build
+COPY ../* ./
+RUN dotnet publish -c Release -o out
+# RUN ls
 
-RUN npm install
-
-# If you are building your code for production
-RUN npm ci
-
-# Bundle app source
-COPY --chown=node:node . .
-
-#EXPOSE 3000
-
-CMD [ "npm", "start" ]
+# # Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build-env /app/out .
+ENTRYPOINT ["dotnet", "BackApi.dll"]
