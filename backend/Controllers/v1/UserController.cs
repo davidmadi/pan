@@ -19,10 +19,14 @@ public class UserController : ControllerBase
     {
         try {
             bool withCache = Request.Headers["Pragma"] != "no-cache" &&
-                Request.Headers["Cache-Control"] != "no-cache";
+              Request.Headers["Cache-Control"] != "no-cache";
 
+            var db = new User();
+            db.email = email;
+            db.password = password;
+            db.model.SaveChanges();
             return new Response<User>(){
-                Result = new User(),
+                Result = db,
                 Success = true
             };
         }
