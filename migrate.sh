@@ -1,1 +1,1 @@
-node-pg-migrate up --envPath=/Users/davidmadi/dev/pan/.env --dry-run
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres npm run migrate up

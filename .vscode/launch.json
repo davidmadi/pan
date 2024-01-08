@@ -7,6 +7,14 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Launch TS",
+      "program": "${workspaceFolder}/backend/server.ts",
+      "preLaunchTask": "tsc: build - tsconfig.json",
+      "outFiles": ["${workspaceFolder}/backend/out/**/*.js"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Launch Backend",
       "program": "${workspaceFolder}/backend/dist/server.js",
       "preLaunchTask": "tsc: build - tsconfig.json",
