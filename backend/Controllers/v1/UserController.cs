@@ -17,26 +17,29 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<Response<User>> Get(string email, string password)
     {
-        try {
+        try
+        {
             bool withCache = Request.Headers["Pragma"] != "no-cache" &&
               Request.Headers["Cache-Control"] != "no-cache";
 
-            var db = new User();
-            db.email = email;
-            db.password = password;
-            db.model.SaveChanges();
-            return new Response<User>(){
-                Result = db,
+            var db = new UserContext();
+            db.Users.Add(new User() { Email = email, Password = password });
+            db.SaveChanges();
+            return new Response<User>()
+            {
+                Result = db.Users.First(),
                 Success = true
             };
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             Library.Logging.LogManager.EnqueueException(e, null);
-            return NotFound(new Response<IncomeTaxResult>(){
+            return NotFound(new Response<IncomeTaxResult>()
+            {
                 Success = false,
                 Message = e.Message
             });
         }
-    }    
-    
+    }
+
 }
