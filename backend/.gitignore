@@ -49,3 +49,7 @@ typings/
 # JSON files in data folder to preload resources in DB
 /data/*
 !data/.gitkeep
+
+bin
+obj
+out

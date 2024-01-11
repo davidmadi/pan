@@ -1,19 +1,16 @@
-#docker build -t backapi .
-# syntax=docker/dockerfile:1
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
-WORKDIR /app
+WORKDIR /App
 
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore
+# Copy everything
+COPY . ./
+# Restore as distinct layers
+RUN dotnet restore BackApi.csproj
+# Build and publish a release
+RUN dotnet publish BackApi.csproj -c Release -o out
 
-# Copy everything else and build
-COPY ../* ./
-RUN dotnet publish -c Release -o out
-# RUN ls
 
-# # Build runtime image
+# Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
-WORKDIR /app
-COPY --from=build-env /app/out .
+WORKDIR /App
+COPY --from=build-env /App/out .
 ENTRYPOINT ["dotnet", "BackApi.dll"]
