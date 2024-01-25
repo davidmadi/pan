@@ -1,11 +1,11 @@
 services:
   #If you need replicas of the containers, copy and past. At this moment,
   #DockerComposeV2's "replica" does not work as DockerComposeV1's
-  frontend:
-    container_name: ang
-    build:
-      context: ./ang
-      dockerfile: ./Dockerfile
+  # frontend:
+  #   container_name: ang
+  #   build:
+  #     context: ./ang
+  #     dockerfile: ./Dockerfile
   # nginx:
   #   container_name: middlenginx
   #   image: nginx:stable-alpine
@@ -26,6 +26,9 @@ services:
       - "8080:8080"
     depends_on:
       - db
+    # command:
+      # dotnet ef database update
+
   db:
     container_name: postgres
     image: postgres:16.1
