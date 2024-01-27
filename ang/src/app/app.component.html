@@ -166,12 +166,11 @@
   a,
   a:visited,
   a:hover {
-    color: #1976d2;
     text-decoration: none;
   }
 
   a:hover {
-    color: #125699;
+
   }
 
   .terminal {
@@ -329,16 +328,12 @@
 <mat-divider></mat-divider>
 <section>
   <div class="example-button-row">
-    <button mat-raised-button color="primary">
-      <a [routerLink]="['/users/list']">
+      <a mat-raised-button color="primary" [routerLink]="['/users/list']">
         Users List
       </a>
-    </button>
-    <button mat-raised-button color="primary">
-      <a [routerLink]="['/']">
+      <a mat-raised-button color="primary" [routerLink]="['/']">
       Home
       </a>
-    </button>
   </div>
 </section>
 <mat-divider></mat-divider>
