@@ -41,16 +41,20 @@ builder.Services.AddHttpLogging(logging =>
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
-                      policy  =>
-                      {
-                        policy.WithOrigins("http://localhost");
-                        policy.WithOrigins("http://localhost:4200");
-                      });
+        policy  =>
+        {
+            policy.WithOrigins("http://localhost");
+            policy.WithOrigins("http://localhost:4200");
+        });
 });
 
 var app = builder.Build();
 // app.UseHttpLogging();
-app.UseCors();
+app.UseCors(builder => 
+    builder.WithOrigins("http://localhost:4200")
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials());
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 // {

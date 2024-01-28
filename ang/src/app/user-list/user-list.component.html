@@ -1,20 +1,27 @@
-    <mat-accordion *ngFor="let user of users" role="listitem">
+<div class="container">
+  <mat-accordion *ngFor="let user of users" role="listitem" class="row">
       <mat-expansion-panel (opened)="user.opened = true"
                           (closed)="user.opened = false">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            User: {{user.email}}
+            <mat-icon *ngIf="user.editing" aria-hidden="false" fontIcon="priority_high"></mat-icon>
+            <span>User: {{user.email}} - {{user.id}}</span>
           </mat-panel-title>
-          <mat-panel-description>
-          </mat-panel-description>
         </mat-expansion-panel-header>
-        <mat-form-field class="example-form-field">
-          <mat-label>Clearable input</mat-label>
-          <input matInput type="text" [value]="user.email">
-          <button *ngIf="user.email" matSuffix mat-icon-button aria-label="Clear">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-        <button mat-raised-button color="primary">Save</button>
+        <div class="d-flex justify-content-between">
+          <div class="col-4">
+            <mat-form-field class="">
+              <mat-label>Email</mat-label>
+              <input matInput type="text" [(ngModel)]="user.email" (ngModelChange)="user.editing = true">
+              <button *ngIf="user.email" matSuffix mat-icon-button aria-label="Clear">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-4 d-flex align-items-end flex-column">
+            <button mat-raised-button [color]="(!user.editing) ? 'primary' : 'accent'" (click)="saveUser(user)">Save</button>
+          </div>
+        </div>
       </mat-expansion-panel>
-    </mat-accordion>
+  </mat-accordion>
+</div>

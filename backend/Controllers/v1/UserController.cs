@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http.Features;
 namespace BackApi.Controllers.v1;
 
 [ApiController]
-[Route("v1/api/tax")]
+[Route("v1/")]
 
 public class UserController : ControllerBase
 {
@@ -27,6 +27,37 @@ public class UserController : ControllerBase
             return new Response<User>()
             {
                 Result = newUser,
+                Success = true
+            };
+        }
+        catch (Exception e)
+        {
+            Library.Logging.LogManager.EnqueueException(e, null);
+            return NotFound(new Response<IncomeTaxResult>()
+            {
+                Success = false,
+                Message = e.Message
+            });
+        }
+    }
+    
+    [HttpPost("user/update")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<Response<User>> Update(User user)
+    {
+        try
+        {
+            var db = new UserContext();
+            var dbUser = db.Users.First(u => u.Id == user.Id);
+            if (dbUser != null) {
+                dbUser.Email = user.Email;
+                dbUser.Password = user.Password;
+            }
+            db.SaveChanges();
+            return new Response<User>()
+            {
+                Result = dbUser,
                 Success = true
             };
         }

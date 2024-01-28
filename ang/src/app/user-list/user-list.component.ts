@@ -16,5 +16,13 @@ export class UserListComponent implements OnInit {
     })
   }
 
+  saveUser(user:User){
+    var ctx = new UserContext();
+    ctx.Update(user).then((result) =>{
+      this.ngOnInit();
+    });
+
+  }
+
 
 }
