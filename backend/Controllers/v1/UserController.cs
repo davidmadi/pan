@@ -53,6 +53,7 @@ public class UserController : ControllerBase
             if (dbUser != null) {
                 dbUser.Email = user.Email;
                 dbUser.Password = user.Password;
+                dbUser.FullName = user.FullName;
             }
             db.SaveChanges();
             return new Response<User>()

@@ -2,6 +2,7 @@ import Model from "src/library/models/Model";
 export interface User {
   id:number;
   email:string;
+  fullName:string;
   password:string;
   //UI Properties
   opened:boolean;
