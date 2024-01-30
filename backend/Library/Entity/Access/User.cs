@@ -12,7 +12,8 @@ namespace Library.Entity.Access
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-      optionsBuilder.UseNpgsql("Host=localhost;Username=postgres;Password=postgres;Database=postgres");
+      var variable = Variable.GetInstance();
+      optionsBuilder.UseNpgsql($"Host={variable.PostgresHost};Username={variable.PostgresUser};Password={variable.PostgresPassword};Database={variable.PostgresDB}");
     }
   }
 

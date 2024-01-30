@@ -26,15 +26,19 @@ services:
       - "8080:8080"
     depends_on:
       - db
-    # command:
-      # dotnet ef database update
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_HOST=postgres
+    command:
+      sh ./migrate.sh
 
   db:
     container_name: postgres
     image: postgres:16.1
     volumes:
-      - ./db:/docker-entrypoint-initdb.d/
-      - ./pgdata:/var/lib/postgres/data
+      - volume-postgres-test:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
@@ -44,3 +48,7 @@ services:
       - APP_DB_USER=docker
       - APP_DB_PASS=docker
       - APP_DB_NAME=docker
+
+volumes:
+    volume-postgres: {}
+    volume-postgres-test: {}
