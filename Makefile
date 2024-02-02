@@ -16,7 +16,7 @@ migrate:
 	export POSTGRES_HOST=localhost
 	dotnet ef database update  -p ./backend/BackApi.csproj
 
-## refresh: refresh docker containers
+## refresh: refresh docker containers #make refresh
 .PHONY: refresh
 refresh:
 	docker-compose down

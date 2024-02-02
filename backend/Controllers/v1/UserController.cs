@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Library.Entity.Access;
 using Microsoft.AspNetCore.Http.Features;
+using Library.Entity.S3Bucket;
 
 namespace BackApi.Controllers.v1;
 
@@ -52,7 +53,6 @@ public class UserController : ControllerBase
             var dbUser = db.Users.First(u => u.Id == user.Id);
             if (dbUser != null) {
                 dbUser.Email = user.Email;
-                dbUser.Password = user.Password;
                 dbUser.FullName = user.FullName;
             }
             db.SaveChanges();
@@ -61,6 +61,44 @@ public class UserController : ControllerBase
                 Result = dbUser,
                 Success = true
             };
+        }
+        catch (Exception e)
+        {
+            Library.Logging.LogManager.EnqueueException(e, null);
+            return NotFound(new Response<IncomeTaxResult>()
+            {
+                Success = false,
+                Message = e.Message
+            });
+        }
+    }
+
+
+    [HttpPost("user/uploadPicture")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<Response<User>> Update(int userId, IFormFile file)
+     {
+        try
+        {
+            var db = new UserContext();
+            var dbUser = db.Users.First(u => u.Id == userId);
+            if (dbUser != null) {
+                var s3File = S3File.Upload(file);
+                dbUser.ProfilePicture = s3File.Url;
+                db.SaveChanges();
+                return new Response<User>()
+                {
+                    Result = dbUser,
+                    Success = true
+                };
+            } 
+            else {
+                return new Response<User>()
+                {
+                    Message = "No user found"
+                };
+            }
         }
         catch (Exception e)
         {

@@ -17,22 +17,23 @@ services:
   #     - ./nginx.middle.conf:/etc/nginx/conf.d/default.conf:rw
   #   depends_on:
   #     - backend
-  # backend:
-  #   container_name: backend
-  #   build:
-  #     context: ./backend
-  #     dockerfile: ./Dockerfile
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     - POSTGRES_PASSWORD=postgres
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_DB=postgres
-  #     - POSTGRES_HOST=postgres
-  #   command:
-  #     sh ./migrate.sh
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_HOST=postgres
+    command:
+      make migrate
 
   localstack:
     container_name: localstack-main
@@ -45,20 +46,20 @@ services:
       - volume-localstack:/var/lib/localstack
       - "/var/run/docker.sock:/var/run/docker.sock"      
 
-  # db:
-  #   container_name: postgres
-  #   image: postgres:16.1
-  #   volumes:
-  #     - volume-postgres-test:/var/lib/postgresql/data
-  #   ports:
-  #     - "5432:5432"
-  #   environment:
-  #     - POSTGRES_PASSWORD=postgres
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_DB=postgres
-  #     - APP_DB_USER=docker
-  #     - APP_DB_PASS=docker
-  #     - APP_DB_NAME=docker
+  db:
+    container_name: postgres
+    image: postgres:16.1
+    volumes:
+      - volume-postgres-test:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+      - APP_DB_USER=docker
+      - APP_DB_PASS=docker
+      - APP_DB_NAME=docker
 
 volumes:
     volume-postgres: {}
