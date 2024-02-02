@@ -11,6 +11,8 @@ namespace Library.Entity.S3Bucket
       var ret = new S3File();
       var bucketName = "my-bucket";
       var credentials = new Amazon.Runtime.BasicAWSCredentials("empty", "empty");
+      var extension = file.FileName.Split(".")[1];
+      var key = $"{Guid.NewGuid()}.{extension}";
       var config = new AmazonS3Config
       {
         RegionEndpoint = Amazon.RegionEndpoint.USEast1, // e.g., Amazon.RegionEndpoint.USWest2
@@ -27,7 +29,7 @@ namespace Library.Entity.S3Bucket
           var putRequest1 = new PutObjectRequest
           {
               BucketName = bucketName,
-              Key = file.FileName,
+              Key = key,
               InputStream = newMemoryStream
           };
 
@@ -39,7 +41,7 @@ namespace Library.Entity.S3Bucket
         GetPreSignedUrlRequest preSignedUrlRequest = new GetPreSignedUrlRequest
         {
           BucketName = bucketName,
-          Key = file.FileName,
+          Key = key,
           Expires = DateTime.UtcNow.AddHours(1),
         };
 
