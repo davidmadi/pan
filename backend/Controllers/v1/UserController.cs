@@ -150,7 +150,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            int itemsToSkip = (pageNumber - 1) * pageSize;
+            int itemsToSkip = pageNumber * pageSize;
             var db = new UserContext();
             var listUsers = db.Users.OrderBy(item => item.Id) // Assuming you want to order by some property like Id
             .Skip(itemsToSkip)

@@ -16,7 +16,7 @@ export interface User {
 export class UserContext {
 
   public async List(pageNumber:number, pageSize:number) : Promise<User[]> {
-    var result:any = await fetch("http://localhost:5276/v1/user/list?pageNumber=1&pageSize=10").then((r)=>{
+    var result:any = await fetch(`http://localhost:5276/v1/user/list?pageNumber=${pageNumber}&pageSize=${pageSize}`).then((r)=>{
       return r.json();
     });
     return new Promise<User[]>((resolve, reject) => {

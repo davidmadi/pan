@@ -16,6 +16,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {HttpClientModule} from '@angular/common/http'
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {HttpClientModule} from '@angular/common/http'
     MatInputModule,
     MatBadgeModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

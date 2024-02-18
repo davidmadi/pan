@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {PageEvent} from '@angular/material/paginator';
 import { UserContext, User } from 'src/library/models/User';
 import {
   MatDialog,
@@ -15,12 +16,27 @@ export class UserListComponent implements OnInit {
 
   protected users:User[] = new Array<User>();
   protected showUpload:boolean = false;
+  protected pageLength:number = 1;
+  protected pageSize:number = 10;
+  protected pageIndex:number = 0;
 
   constructor(public dialog: MatDialog, public handler:HttpHandler) {}
 
   ngOnInit(): void {
-    new UserContext().List(0, 10).then((result)=>{
+    this.reload();
+  }
+
+  protected pageChange(e: PageEvent) {
+    this.pageLength = e.length;
+    this.pageSize = e.pageSize;
+    this.pageIndex = e.pageIndex;
+    this.reload();
+  }
+
+  private reload(){
+    new UserContext().List(this.pageIndex, this.pageSize).then((result)=>{
       this.users = result;
+      this.pageLength = 100;
     });
   }
 
@@ -61,4 +77,5 @@ export class UserListComponent implements OnInit {
       }
     })
   }
+
 }
