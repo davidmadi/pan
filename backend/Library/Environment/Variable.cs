@@ -1,6 +1,6 @@
 public class Variable 
 {
-  static Variable _variable;
+  static Variable? _variable = null;
   public static Variable GetInstance(){
     if (_variable == null) {
       _variable = new Variable();

@@ -1,36 +1,47 @@
 <div class="container">
   <mat-accordion *ngFor="let user of users" role="listitem" class="row">
-      <mat-expansion-panel (opened)="user.opened = true"
-                          (closed)="user.opened = false">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon *ngIf="user.editing" aria-hidden="false" fontIcon="priority_high"></mat-icon>
-            <span>{{user.fullName}} - {{user.email}} - {{user.id}}</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="row">
-          <div class="col-sm-12 col-lg-3">
-            <mat-form-field class="">
-              <mat-label>Full Name</mat-label>
-              <input matInput type="text" [(ngModel)]="user.fullName" (ngModelChange)="user.editing = true">
-              <button *ngIf="user.fullName" matSuffix mat-icon-button aria-label="Clear">
-                <mat-icon>close</mat-icon>
+    <mat-expansion-panel (opened)="user.opened = true"
+                        (closed)="user.opened = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="">
+          <mat-icon class="" *ngIf="user.editing" aria-hidden="false" fontIcon="priority_high"></mat-icon>
+          <img mat-card-image class="mh-1 mw-1 " src="{{user.profilePicture}}" alt="Photo of a {{user.fullName}}">
+          <span class=""> - {{user.fullName}} - {{user.email}} - {{user.id}}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="row">
+        <div class="col-sm-12 col-lg-3 col-sm-12 col-lg-3 d-flex align-self-center flex-column">
+          <div class="d-flex align-self-center flex-column justify-content-start">
+            <img mat-card-image class="mh-5 mw-5" src="{{user.profilePicture}}" alt="Photo of a {{user.fullName}}">
+            <div class="d-flex flex-row justify-content-center">
+              <button mat-icon-button aria-label="Upload profile picture" (click)="this.openUploadFile(user)">
+                <mat-icon>edit</mat-icon>
               </button>
-            </mat-form-field>
-          </div>
-          <div class="col-sm-12 col-lg-3">
-            <mat-form-field class="">
-              <mat-label>Email</mat-label>
-              <input matInput type="text" [(ngModel)]="user.email" (ngModelChange)="user.editing = true">
-              <button *ngIf="user.email" matSuffix mat-icon-button aria-label="Clear">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-          <div class="col-sm-12 col-lg-3 d-flex flex-row align-items-center">
-            <button mat-raised-button [color]="(!user.editing) ? 'primary' : 'accent'" (click)="saveUser(user)">Save</button>
+            </div>
           </div>
         </div>
-      </mat-expansion-panel>
+        <div class="col-sm-12 col-lg-3">
+          <mat-form-field class="">
+            <mat-label>Full Name</mat-label>
+            <input matInput type="text" [(ngModel)]="user.fullName" (ngModelChange)="user.editing = true">
+            <button *ngIf="user.fullName" matSuffix mat-icon-button aria-label="Clear">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-12 col-lg-3">
+          <mat-form-field class="">
+            <mat-label>Email</mat-label>
+            <input matInput type="text" [(ngModel)]="user.email" (ngModelChange)="user.editing = true">
+            <button *ngIf="user.email" matSuffix mat-icon-button aria-label="Clear">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-12 col-lg-3 d-flex flex-row align-items-center">
+          <button mat-raised-button [color]="(!user.editing) ? 'primary' : 'accent'" (click)="saveUser(user)">Save</button>
+        </div>
+      </div>
+    </mat-expansion-panel>
   </mat-accordion>
 </div>

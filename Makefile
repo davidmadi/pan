@@ -15,6 +15,7 @@ migrate:
 	export POSTGRES_DB=postgres
 	export POSTGRES_HOST=localhost
 	dotnet ef database update  -p ./backend/BackApi.csproj
+	awslocal s3api create-bucket --bucket my-bucket --region us-east-1
 
 ## refresh: refresh docker containers #make refresh
 .PHONY: refresh
@@ -22,6 +23,17 @@ refresh:
 	docker-compose down
 	docker image remove -f pan-backend
 	docker-compose up -d
+
+## start/docker: migrate and bucket
+.PHONY: start/docker
+start/docker:
+	docker compose up -d
+
+## start/front: migrate and bucket
+.PHONY: start/front
+start/front:
+	cd ./ang
+	npm start
 
 ## prune: prune docker containers 
 .PHONY: prune

@@ -1,9 +1,13 @@
+import { HttpClient, HttpHandler, HttpHeaderResponse } from "@angular/common/http";
 import Model from "src/library/models/Model";
+import { filter } from 'rxjs';
+
 export interface User {
   id:number;
   email:string;
   fullName:string;
   password:string;
+  profilePicture:string;
   //UI Properties
   opened:boolean;
   editing:boolean;
@@ -26,7 +30,6 @@ export class UserContext {
   }
 
   public Update(user:User) : Promise<User> {
-
     var data = JSON.stringify(user);
     return new Promise<User>((resolve, reject)=>{
       fetch('http://localhost:5276/v1/user/update', {
@@ -45,5 +48,24 @@ export class UserContext {
     });
   }
 
+  public UploadFile(file:any, handler:HttpHandler) : Promise<HttpHeaderResponse> {
+    var url:string = "http://localhost:5276/v1/upload/image";
 
+    var httpClient = new HttpClient(handler)
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return new Promise<HttpHeaderResponse>((resolve, reject) => {
+      httpClient.post(url, formData, {
+        reportProgress: true,
+        observe: 'events'
+      })
+      .pipe(
+      ).pipe().forEach((next:any)=>{
+        if (next.body) {
+          resolve(next.body);
+        }
+      })
+    });
+  }
 }

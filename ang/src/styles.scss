@@ -111,3 +111,17 @@ $mat-dark-theme: mat.define-dark-theme((
 .ml-1{
   margin-left: 1rem;
 }
+
+
+.mh-1 {
+  max-height: 1rem;
+}
+.mw-1 {
+  max-width: 1rem;
+}
+.mh-5 {
+  max-height: 5rem;
+}
+.mw-5 {
+  max-width: 5rem;
+}

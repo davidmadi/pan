@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content>
+  <mat-label>{{message}}</mat-label>
+</div>
+<div mat-dialog-content>
+  <input ngModel #inputFile type="file" class="" title="">
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button  color="primary" [mat-dialog-close]="data.file" cdkFocusInitial>Upload</button>
+</div>

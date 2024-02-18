@@ -13,11 +13,15 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatBadgeModule} from '@angular/material/badge';
+import { UploadFileComponent } from './components/upload-file/upload-file.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {HttpClientModule} from '@angular/common/http'
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserListComponent
+    UserListComponent,
+    UploadFileComponent
   ],
   imports: [
     FormsModule,
@@ -30,7 +34,9 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatDialogModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
