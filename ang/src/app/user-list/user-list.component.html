@@ -3,24 +3,24 @@
     <mat-expansion-panel (opened)="user.opened = true"
                         (closed)="user.opened = false">
       <mat-expansion-panel-header>
-        <mat-panel-title class="">
-          <mat-icon class="" *ngIf="user.editing" aria-hidden="false" fontIcon="priority_high"></mat-icon>
-          <img mat-card-image class="mh-1 mw-1 " src="{{user.profilePicture}}" alt="Photo of a {{user.fullName}}">
+        <mat-panel-title class="d-flex justify-content-start">
+            <mat-icon class="" *ngIf="user.editing" aria-hidden="false" fontIcon="priority_high"></mat-icon>
+            <img mat-card-image class="mh-1 mw-1 " src="{{user.profilePicture}}" alt="Photo of a {{user.fullName}}">
           <span class=""> - {{user.fullName}} - {{user.email}} - {{user.id}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="row">
-        <div class="col-sm-12 col-lg-3 col-sm-12 col-lg-3 d-flex align-self-center flex-column">
-          <div class="d-flex align-self-center flex-column justify-content-start">
+      <div class="d-flex flex-column flex-md-row justify-content-start">
+        <div class="d-flex">
+          <div class="d-flex justify-content-start">
             <img mat-card-image class="mh-5 mw-5" src="{{user.profilePicture}}" alt="Photo of a {{user.fullName}}">
-            <div class="d-flex flex-row justify-content-center">
+            <div class="d-flex flex-column justify-content-center">
               <button mat-icon-button aria-label="Upload profile picture" (click)="this.openUploadFile(user)">
                 <mat-icon>edit</mat-icon>
               </button>
             </div>
           </div>
         </div>
-        <div class="col-sm-12 col-lg-3">
+        <div class="">
           <mat-form-field class="">
             <mat-label>Full Name</mat-label>
             <input matInput type="text" [(ngModel)]="user.fullName" (ngModelChange)="user.editing = true">
@@ -29,7 +29,7 @@
             </button>
           </mat-form-field>
         </div>
-        <div class="col-sm-12 col-lg-3">
+        <div class="">
           <mat-form-field class="">
             <mat-label>Email</mat-label>
             <input matInput type="text" [(ngModel)]="user.email" (ngModelChange)="user.editing = true">
@@ -38,7 +38,7 @@
             </button>
           </mat-form-field>
         </div>
-        <div class="col-sm-12 col-lg-3 d-flex flex-row align-items-center">
+        <div class="ml-auto d-flex flex-row align-items-center">
           <button mat-raised-button [color]="(!user.editing) ? 'primary' : 'accent'" (click)="saveUser(user)">Save</button>
         </div>
       </div>
