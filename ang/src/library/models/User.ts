@@ -1,6 +1,6 @@
 import { HttpClient, HttpHandler, HttpHeaderResponse } from "@angular/common/http";
 import Model from "src/library/models/Model";
-import { filter } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface User {
   id:number;
@@ -27,7 +27,7 @@ export interface Network {
 export class UserContext {
 
   public async List(pageNumber:number, pageSize:number) : Promise<User[]> {
-    var result:any = await fetch(`http://localhost:5276/v1/user/list?pageNumber=${pageNumber}&pageSize=${pageSize}`).then((r)=>{
+    var result:any = await fetch(`${environment.apiUrl}/v1/user/list?pageNumber=${pageNumber}&pageSize=${pageSize}`).then((r)=>{
       return r.json();
     });
     return new Promise<User[]>((resolve, reject) => {
@@ -41,7 +41,7 @@ export class UserContext {
   }
 
   public async Find(userId:number) : Promise<User> {
-    var result:any = await fetch(`http://localhost:5276/v1/user/get?id=${userId}`).then((r)=>{
+    var result:any = await fetch(`${environment.apiUrl}/v1/user/get?id=${userId}`).then((r)=>{
       return r.json();
     });
     return new Promise<User>((resolve, reject) => {
@@ -55,7 +55,7 @@ export class UserContext {
   }
 
   public async ListNetwork(userId:number) : Promise<Network[]> {
-    var result:any = await fetch(`http://localhost:5276/v1/network/list?userId=${userId}`).then((r)=>{
+    var result:any = await fetch(`${environment.apiUrl}/v1/network/list?userId=${userId}`).then((r)=>{
       return r.json();
     });
     return new Promise<Network[]>((resolve, reject) => {
@@ -71,7 +71,7 @@ export class UserContext {
   public UpdateNetwork(network:Network) : Promise<Network> {
     var data = JSON.stringify(network);
     return new Promise<Network>((resolve, reject)=>{
-      fetch(`http://localhost:5276/v1/network/persist?delete=${network.delete}`, {
+      fetch(`${environment.apiUrl}/v1/network/persist?delete=${network.delete}`, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export class UserContext {
   public Update(user:User) : Promise<User> {
     var data = JSON.stringify(user);
     return new Promise<User>((resolve, reject)=>{
-      fetch('http://localhost:5276/v1/user/update', {
+      fetch('${environment.apiUrl}/v1/user/update', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
@@ -107,7 +107,7 @@ export class UserContext {
   }
 
   public UploadFile(file:any, handler:HttpHandler) : Promise<HttpHeaderResponse> {
-    var url:string = "http://localhost:5276/v1/upload/image";
+    var url:string = "${environment.apiUrl}/v1/upload/image";
 
     var httpClient = new HttpClient(handler)
     const formData = new FormData();
