@@ -24,9 +24,29 @@ export class UserFriendsListComponent {
     this.route.params.pipe(map((p) => {
       return p['id']
     })).subscribe((idVal:string)=>{
+      new UserContext().Find(Number(idVal)).then((result)=>{
+        this.primary = result;
+      });
       new UserContext().ListNetwork(Number(idVal)).then((result)=>{
         this.networks = result;
       });
+    });
+  }
+
+
+  save(network:Network){
+    var ctx = new UserContext();
+    ctx.UpdateNetwork(network).then((result) =>{
+      this.reload();
+    });
+  }
+
+
+  delete(network:Network){
+    var ctx = new UserContext();
+    network.delete = true;
+    ctx.UpdateNetwork(network).then((result) =>{
+      this.reload();
     });
   }
 

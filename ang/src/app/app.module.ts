@@ -18,6 +18,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {HttpClientModule} from '@angular/common/http'
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { UserFriendsListComponent } from './user-friends-list/user-friends-list.component';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { UserFriendsListComponent } from './user-friends-list/user-friends-list.
     MatBadgeModule,
     MatDialogModule,
     HttpClientModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

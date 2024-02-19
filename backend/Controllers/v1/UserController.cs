@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Library.Entity.Access;
 using Library.Entity.S3Bucket;
 using System.Net;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore;
 
 namespace BackApi.Controllers.v1;
 
 [ApiController]
 [Route("v1/")]
-
 public class UserController : ControllerBase
 {
     [HttpPost("user/create")]
@@ -72,44 +73,6 @@ public class UserController : ControllerBase
         }
     }
 
-
-    [HttpPost("user/uploadPicture")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<Response<User>> Update(int userId, IFormFile file)
-     {
-        try
-        {
-            var db = new PostgresContext();
-            var dbUser = db.Users.First(u => u.Id == userId);
-            if (dbUser != null) {
-                var s3File = S3File.Upload(file);
-                dbUser.ProfilePicture = s3File.Url;
-                db.SaveChanges();
-                return new Response<User>()
-                {
-                    Result = dbUser,
-                    Success = true
-                };
-            } 
-            else {
-                return new Response<User>()
-                {
-                    Message = "No user found"
-                };
-            }
-        }
-        catch (Exception e)
-        {
-            Library.Logging.LogManager.EnqueueException(e, null);
-            return NotFound(new Response<IncomeTaxResult>()
-            {
-                Success = false,
-                Message = e.Message
-            });
-        }
-    }
-
     [HttpPost("user/login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -129,6 +92,32 @@ public class UserController : ControllerBase
                 result.Success = true;
             }
             return result;
+        }
+        catch (Exception e)
+        {
+            Library.Logging.LogManager.EnqueueException(e, null);
+            return NotFound(new Response<IncomeTaxResult>()
+            {
+                Success = false,
+                Message = e.Message
+            });
+        }
+    }
+
+    [HttpGet("user/get")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<Response<User>> Find(int id)
+    {
+        try
+        {
+            var db = new PostgresContext();
+            var usr = db.Users.FirstOrDefault(u => u.Id == id);
+            return new Response<User>()
+            {
+                Result = usr,
+                Success = usr != null
+            };
         }
         catch (Exception e)
         {
@@ -170,15 +159,44 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPost("user/network")]
+    [HttpGet("user/find")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<Response<Network>> Network(Network network, bool delete)
+    public ActionResult<Response<List<User>>> Find(string name)
     {
         try
         {
             var db = new PostgresContext();
-            var result = new Response<Network>()
+            var query = from usr in db.Set<User>()
+                where EF.Functions.ILike(usr.FullName, $"%{name}%") ||
+                    EF.Functions.ILike(usr.Email, $"%{name}%")
+                select usr;
+            return new Response<List<User>>()
+            {
+                Result = query.ToList(),
+                Success = true
+            };
+        }
+        catch (Exception e)
+        {
+            Library.Logging.LogManager.EnqueueException(e, null);
+            return NotFound(new Response<IncomeTaxResult>()
+            {
+                Success = false,
+                Message = e.Message
+            });
+        }
+    }
+
+    [HttpPost("user/network")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<Response<NetworkView>> Network(NetworkView network, bool delete)
+    {
+        try
+        {
+            var db = new PostgresContext();
+            var result = new Response<NetworkView>()
             {
                 Success = false
             };
@@ -198,7 +216,11 @@ public class UserController : ControllerBase
                         result.Success = true;
                     }
                 } else {
-                    db.Networks.Add(network);
+                    db.Networks.Add(new Library.Entity.Access.Network(){
+                        PrimaryId = network.Primary.Id,
+                        FriendId = network.Friend.Id,
+                        Relationship = network.Relationship
+                    });
                     db.SaveChanges();
                     result.Success = true;
                 }
@@ -233,7 +255,9 @@ public class UserController : ControllerBase
             var friendQuery = from friend in db.Set<User>()
                 join net in listNetwork
                     on friend.Id equals net.network.FriendId
+                orderby net.network.Id
                 select new NetworkView(){
+                    Id = net.network.Id,
                     Primary = net.user,
                     Friend = friend,
                     Relationship = net.network.Relationship
