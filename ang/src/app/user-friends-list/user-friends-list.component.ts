@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserContext, User, Network } from 'src/library/models/User';
 import {ActivatedRoute} from '@angular/router';
 import {Observable, map} from 'rxjs';
+import { NetworkContext } from 'src/library/models/Network';
 
 @Component({
   selector: 'app-user-friends-list',
@@ -27,7 +28,7 @@ export class UserFriendsListComponent {
       new UserContext().Find(Number(idVal)).then((result)=>{
         this.primary = result;
       });
-      new UserContext().ListNetwork(Number(idVal)).then((result)=>{
+      new NetworkContext().ListNetwork(Number(idVal)).then((result)=>{
         this.networks = result;
       });
     });
@@ -35,7 +36,7 @@ export class UserFriendsListComponent {
 
 
   save(network:Network){
-    var ctx = new UserContext();
+    var ctx = new NetworkContext();
     network.delete = false;
     ctx.UpdateNetwork(network).then((result) =>{
       this.reload();
@@ -44,7 +45,7 @@ export class UserFriendsListComponent {
 
 
   delete(network:Network){
-    var ctx = new UserContext();
+    var ctx = new NetworkContext();
     network.delete = true;
     ctx.UpdateNetwork(network).then((result) =>{
       this.reload();
