@@ -13,6 +13,16 @@ export interface User {
   editing:boolean;
 }
 
+export interface Network {
+  id:number;
+  primary:User;
+  friend:User;
+  relationship:string;
+  //UI Properties
+  editing:boolean;
+}
+
+
 export class UserContext {
 
   public async List(pageNumber:number, pageSize:number) : Promise<User[]> {
@@ -22,6 +32,20 @@ export class UserContext {
     return new Promise<User[]>((resolve, reject) => {
       if (result.result) {
         resolve(result.result as User[]);
+      }
+      else {
+        reject();
+      }
+    })
+  }
+
+  public async ListNetwork(userId:number) : Promise<Network[]> {
+    var result:any = await fetch(`http://localhost:5276/v1/user/network?userId=${userId}`).then((r)=>{
+      return r.json();
+    });
+    return new Promise<Network[]>((resolve, reject) => {
+      if (result.result) {
+        resolve(result.result as Network[]);
       }
       else {
         reject();

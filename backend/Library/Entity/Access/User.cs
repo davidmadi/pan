@@ -6,9 +6,10 @@ using Npgsql;
 
 namespace Library.Entity.Access
 {
-  public class UserContext : DbContext
+  public class PostgresContext : DbContext
   {
     public DbSet<User> Users { get; set; }
+    public DbSet<Network> Networks { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

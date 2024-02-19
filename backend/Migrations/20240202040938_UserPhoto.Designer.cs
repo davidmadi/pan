@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BackApi.Migrations
 {
-    [DbContext(typeof(UserContext))]
+    [DbContext(typeof(PostgresContext))]
     [Migration("20240202040938_UserPhoto")]
     partial class UserPhoto
     {

@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BackApi.Migrations
 {
-    [DbContext(typeof(UserContext))]
+    [DbContext(typeof(PostgresContext))]
     partial class UserContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -20,6 +20,28 @@ namespace BackApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Library.Entity.Access.Network", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("FriendId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PrimaryId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Relationship")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Networks");
+                });
 
             modelBuilder.Entity("Library.Entity.Access.User", b =>
                 {
@@ -36,6 +58,9 @@ namespace BackApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfilePicture")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

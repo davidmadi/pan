@@ -1,0 +1,38 @@
+<div class="container">
+  {{primary.fullName}}
+  <div *ngFor="let network of networks" role="listitem" class="">
+      <div class="d-flex flex-column flex-md-row justify-content-start">
+        <div class="">
+          <div class="d-flex justify-content-start">
+            <img mat-card-image class="mh-5 mw-5" src="{{network.friend.profilePicture}}" alt="Photo of a {{network.friend.fullName}}">
+            <div class="d-flex flex-column justify-content-center">
+              <button mat-icon-button aria-label="Upload profile picture">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="ml-1">
+          <mat-form-field class="">
+            <mat-label>Full Name</mat-label>
+            <input matInput type="text" [(ngModel)]="network.friend.fullName" (ngModelChange)="network.editing = true">
+            <button *ngIf="network.friend.fullName" matSuffix mat-icon-button aria-label="Clear">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="ml-1">
+          <mat-form-field class="">
+            <mat-label>Relationship</mat-label>
+            <input matInput type="text" [(ngModel)]="network.relationship" (ngModelChange)="network.editing = true">
+            <button *ngIf="network.relationship" matSuffix mat-icon-button aria-label="Clear">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="ml-1">
+          <button mat-raised-button [color]="(!network.editing) ? 'primary' : 'accent'">Save</button>
+        </div>
+      </div>
+  </div>
+</div>

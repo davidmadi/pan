@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-accordion *ngFor="let user of users" role="listitem" class="row">
+  <mat-accordion *ngFor="let user of users" role="listitem" class="">
     <mat-expansion-panel (opened)="user.opened = true"
                         (closed)="user.opened = false">
       <mat-expansion-panel-header>
@@ -10,7 +10,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="d-flex flex-column flex-md-row justify-content-start">
-        <div class="d-flex">
+        <div class="">
           <div class="d-flex justify-content-start">
             <img mat-card-image class="mh-5 mw-5" src="{{user.profilePicture}}" alt="Photo of a {{user.fullName}}">
             <div class="d-flex flex-column justify-content-center">
@@ -20,7 +20,7 @@
             </div>
           </div>
         </div>
-        <div class="">
+        <div class="ml-1">
           <mat-form-field class="">
             <mat-label>Full Name</mat-label>
             <input matInput type="text" [(ngModel)]="user.fullName" (ngModelChange)="user.editing = true">
@@ -29,7 +29,7 @@
             </button>
           </mat-form-field>
         </div>
-        <div class="">
+        <div class="ml-1">
           <mat-form-field class="">
             <mat-label>Email</mat-label>
             <input matInput type="text" [(ngModel)]="user.email" (ngModelChange)="user.editing = true">
@@ -38,8 +38,11 @@
             </button>
           </mat-form-field>
         </div>
-        <div class="ml-auto d-flex flex-row align-items-center">
+        <div class="ml-1">
           <button mat-raised-button [color]="(!user.editing) ? 'primary' : 'accent'" (click)="saveUser(user)">Save</button>
+        </div>
+        <div class="ml-1">
+          <button mat-raised-button color="primary" [routerLink]="['/user/friends', user.id]">Friends</button>
         </div>
       </div>
     </mat-expansion-panel>

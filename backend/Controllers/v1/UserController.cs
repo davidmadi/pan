@@ -1,11 +1,9 @@
-using System;
 using Library.Envelope;
 using Library.Back.Calculator;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Library.Entity.Access;
-using Microsoft.AspNetCore.Http.Features;
 using Library.Entity.S3Bucket;
+using System.Net;
 
 namespace BackApi.Controllers.v1;
 
@@ -21,7 +19,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            var db = new UserContext();
+            var db = new PostgresContext();
             var newUser = new User() { Email = email, Password = password };
             db.Users.Add(newUser);
             db.SaveChanges();
@@ -49,7 +47,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            var db = new UserContext();
+            var db = new PostgresContext();
             var dbUser = db.Users.First(u => u.Id == user.Id);
             if (dbUser != null) {
                 dbUser.Email = user.Email;
@@ -82,7 +80,7 @@ public class UserController : ControllerBase
      {
         try
         {
-            var db = new UserContext();
+            var db = new PostgresContext();
             var dbUser = db.Users.First(u => u.Id == userId);
             if (dbUser != null) {
                 var s3File = S3File.Upload(file);
@@ -124,7 +122,7 @@ public class UserController : ControllerBase
                 Success = true
             };
 
-            var db = new UserContext();
+            var db = new PostgresContext();
             var listUsers = db.Users.Where(u => u.Email == email && u.Password == password);
             if (listUsers.Count() > 0) {
                 result.Result = listUsers.First();
@@ -151,7 +149,7 @@ public class UserController : ControllerBase
         try
         {
             int itemsToSkip = pageNumber * pageSize;
-            var db = new UserContext();
+            var db = new PostgresContext();
             var listUsers = db.Users.OrderBy(item => item.Id) // Assuming you want to order by some property like Id
             .Skip(itemsToSkip)
             .Take(pageSize);
@@ -171,4 +169,89 @@ public class UserController : ControllerBase
             });
         }
     }
-}
+
+    [HttpPost("user/network")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<Response<Network>> Network(Network network, bool delete)
+    {
+        try
+        {
+            var db = new PostgresContext();
+            var result = new Response<Network>()
+            {
+                Success = false
+            };
+            if (delete){
+                var dbNet = db.Networks.FirstOrDefault(n => n.Id == network.Id);
+                if (dbNet != null) {
+                    db.Remove(dbNet);
+                    db.SaveChanges();
+                    result.Success = true;
+                }
+            } else {
+                if (network.Id > 0) {
+                    var dbNet = db.Networks.FirstOrDefault(n => n.Id == network.Id);
+                    if (dbNet != null) {
+                        dbNet.Relationship = network.Relationship;
+                        db.SaveChanges();
+                        result.Success = true;
+                    }
+                } else {
+                    db.Networks.Add(network);
+                    db.SaveChanges();
+                    result.Success = true;
+                }
+            }
+            return result;
+        }
+        catch (Exception e)
+        {
+            Library.Logging.LogManager.EnqueueException(e, null);
+            return NotFound(new Response<IncomeTaxResult>()
+            {
+                Success = false,
+                Message = e.Message
+            });
+        }
+    }
+
+
+    [HttpGet("user/network")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<Response<List<NetworkView>>> Network(int userId)
+    {
+        try
+        {
+            var db = new PostgresContext();
+            var listNetwork = from user in db.Set<User>()
+                join network in db.Set<Network>() 
+                    on user.Id equals network.PrimaryId
+                where user.Id == userId
+                select new { user, network };
+            var friendQuery = from friend in db.Set<User>()
+                join net in listNetwork
+                    on friend.Id equals net.network.FriendId
+                select new NetworkView(){
+                    Primary = net.user,
+                    Friend = friend,
+                    Relationship = net.network.Relationship
+                };
+
+            return new Response<List<NetworkView>>()
+            {
+                Result = friendQuery.ToList(),
+                Success = true
+            };
+        }
+        catch (Exception e)
+        {
+            Library.Logging.LogManager.EnqueueException(e, null);
+            return NotFound(new Response<IncomeTaxResult>()
+            {
+                Success = false,
+                Message = e.Message
+            });
+        }
+    }}

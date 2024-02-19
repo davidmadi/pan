@@ -17,12 +17,14 @@ import { UploadFileComponent } from './components/upload-file/upload-file.compon
 import {MatDialogModule} from '@angular/material/dialog';
 import {HttpClientModule} from '@angular/common/http'
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { UserFriendsListComponent } from './user-friends-list/user-friends-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserListComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    UserFriendsListComponent
   ],
   imports: [
     FormsModule,

@@ -7,6 +7,10 @@ help:
 	@echo 'Usage:'
 	@sed -n 's/^##//p' ${MAKEFILE_LIST} | column -t -s ':' |  sed -e 's/^/ /'
 
+.PHONY: migration/add
+migration/add:
+	@echo 'run this -> dotnet ef migrations add InitMyName --project ./backend/BackApi.csproj'
+
 ## migrate: run migration
 .PHONY: migrate
 migrate:
