@@ -55,7 +55,7 @@ export class UserContext {
   }
 
   public async ListNetwork(userId:number) : Promise<Network[]> {
-    var result:any = await fetch(`http://localhost:5276/v1/user/network?userId=${userId}`).then((r)=>{
+    var result:any = await fetch(`http://localhost:5276/v1/network/list?userId=${userId}`).then((r)=>{
       return r.json();
     });
     return new Promise<Network[]>((resolve, reject) => {
@@ -71,7 +71,7 @@ export class UserContext {
   public UpdateNetwork(network:Network) : Promise<Network> {
     var data = JSON.stringify(network);
     return new Promise<Network>((resolve, reject)=>{
-      fetch(`http://localhost:5276/v1/user/network?delete=${network.delete}`, {
+      fetch(`http://localhost:5276/v1/network/persist?delete=${network.delete}`, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",

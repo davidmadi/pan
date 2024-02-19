@@ -5,14 +5,14 @@
       <mat-expansion-panel-header>
         <mat-panel-title class="d-flex justify-content-start">
             <mat-icon class="" *ngIf="user.editing" aria-hidden="false" fontIcon="priority_high"></mat-icon>
-            <img mat-card-image class="mh-1 mw-1 " src="{{user.profilePicture}}" alt="Photo of a {{user.fullName}}">
+            <app-profile-picture url="{{user.profilePicture}}" title="Photo of a {{user.fullName}}" size="tiny" />
           <span class="">&nbsp;-&nbsp;{{user.email}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="d-flex flex-column flex-md-row justify-content-start">
         <div class="">
           <div class="d-flex justify-content-start">
-            <img mat-card-image class="mh-5 mw-5" src="{{user.profilePicture}}" alt="Photo of a {{user.fullName}}">
+            <app-profile-picture url="{{user.profilePicture}}" title="Photo of a {{user.fullName}}"/>
             <div class="d-flex flex-column justify-content-center">
               <button mat-icon-button aria-label="Upload profile picture" (click)="this.openUploadFile(user)">
                 <mat-icon>edit</mat-icon>

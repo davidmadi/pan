@@ -19,13 +19,15 @@ import {HttpClientModule} from '@angular/common/http'
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { UserFriendsListComponent } from './user-friends-list/user-friends-list.component';
 import {MatSelectModule} from '@angular/material/select';
+import { ProfilePictureComponent } from './components/profile-picture/profile-picture.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserListComponent,
     UploadFileComponent,
-    UserFriendsListComponent
+    UserFriendsListComponent,
+    ProfilePictureComponent
   ],
   imports: [
     FormsModule,

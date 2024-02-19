@@ -6,18 +6,18 @@
       <div class="d-flex flex-column flex-md-row justify-content-start">
         <div class="">
           <div class="d-flex justify-content-start">
-            <img mat-card-image class="mh-5 mw-5" src="{{network.friend.profilePicture}}" alt="Photo of a {{network.friend.fullName}}">
+            <app-profile-picture url="{{network.friend.profilePicture}}" title="Photo of a {{network.friend.fullName}}"/>
           </div>
         </div>
-        <div class="ml-1">
+        <div class="ml-1 d-flex flex-column justify-content-center">
           <mat-label>{{network.friend.fullName}}</mat-label>
         </div>
-        <div class="ml-1">
+        <div class="ml-1 d-flex flex-column justify-content-center">
           <mat-label>{{network.friend.email}}</mat-label>
         </div>
-        <div class="ml-1">
+        <div class="ml-1 d-flex flex-column justify-content-center">
           <mat-form-field appearance="fill">
-            <mat-label>Choose one</mat-label>
+            <mat-label>Relationship</mat-label>
             <mat-select [(ngModel)]="network.relationship">
               <mat-option value="friend">Friend</mat-option>
               <mat-option value="family">Family</mat-option>
@@ -25,10 +25,10 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="ml-1">
+        <div class="ml-1 d-flex flex-column justify-content-center">
           <button mat-raised-button [color]="(!network.editing) ? 'primary' : 'accent'" (click)="save(network)">Save</button>
         </div>
-        <div class="ml-1">
+        <div class="ml-1 d-flex flex-column justify-content-center">
           <button mat-raised-button [color]="(!network.editing) ? 'primary' : 'accent'" (click)="delete(network)">Delete</button>
         </div>
       </div>

@@ -1,0 +1,8 @@
+<div>
+  <div *ngIf="size=='tiny'; else medium">
+    <img mat-card-image class="w-1 h-1 br-1" src="{{url}}" alt="Photo of a {{title}}" />
+  </div>
+  <ng-template  #medium>
+    <img mat-card-image class="w-5 h-5 mw-5 mh-5 br-5" src="{{url}}" alt="Photo of a {{title}}" />
+  </ng-template>
+</div>

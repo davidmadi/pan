@@ -36,6 +36,7 @@ export class UserFriendsListComponent {
 
   save(network:Network){
     var ctx = new UserContext();
+    network.delete = false;
     ctx.UpdateNetwork(network).then((result) =>{
       this.reload();
     });
