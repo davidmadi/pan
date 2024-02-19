@@ -58,22 +58,15 @@ export class UserListComponent implements OnInit {
       data: uploadDataFile
     });    
     dialogRef.afterClosed().subscribe(()=>{
-      // alert(uploadDataFile);
       var file = uploadDataFile.file.nativeElement.files[0];
       if (file) {
-        // var reader = new FileReader();
-        // reader.readAsText(file);
-        // reader.onload = function (evt:any) {
-          var u = new UserContext();
-          u.UploadFile(file, handler).then((res:any)=>{
-            if (res.result && res.result.url) {
-              user.profilePicture = res.result.url;
-            }
-          })
-        // }
-        // reader.onerror = function (evt:any) {
-        //     alert("error reading file");
-        // }
+        var u = new UserContext();
+        u.UploadFile(file, handler).then((res:any)=>{
+          if (res.result && res.result.url) {
+            user.profilePicture = res.result.url;
+            user.editing = true;
+          }
+        })
       }
     })
   }

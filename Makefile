@@ -27,6 +27,7 @@ refresh:
 	docker-compose down
 	docker image remove -f pan-backend
 	docker-compose up -d
+	make migrate
 
 ## start/docker: migrate and bucket
 .PHONY: start/docker

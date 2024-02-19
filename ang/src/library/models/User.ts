@@ -90,7 +90,7 @@ export class UserContext {
   public Update(user:User) : Promise<User> {
     var data = JSON.stringify(user);
     return new Promise<User>((resolve, reject)=>{
-      fetch('${environment.apiUrl}/v1/user/update', {
+      fetch(`${environment.apiUrl}/v1/user/update`, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
@@ -107,7 +107,7 @@ export class UserContext {
   }
 
   public UploadFile(file:any, handler:HttpHandler) : Promise<HttpHeaderResponse> {
-    var url:string = "${environment.apiUrl}/v1/upload/image";
+    var url:string = `${environment.apiUrl}/v1/upload/image`;
 
     var httpClient = new HttpClient(handler)
     const formData = new FormData();
