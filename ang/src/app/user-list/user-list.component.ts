@@ -6,6 +6,7 @@ import {
 } from '@angular/material/dialog';
 import { UploadFileComponent } from '../components/upload-file/upload-file.component';
 import { HttpHandler } from '@angular/common/http';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-user-list',
@@ -13,7 +14,7 @@ import { HttpHandler } from '@angular/common/http';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-
+  separatorKeysCodes: number[] = [ENTER, COMMA];
   protected users:User[] = new Array<User>();
   protected showUpload:boolean = false;
   protected pageLength:number = 1;
@@ -71,4 +72,38 @@ export class UserListComponent implements OnInit {
     })
   }
 
+  remove(user:User, setting:string) {
+    const index = user.settings.indexOf(setting);
+    if (index >= 0) {
+      user.settings.splice(index, 1);
+    }
+    user.editing = true;
+  }
+  edit(user:User, setting:string, $event:any){
+    const value = $event.value.trim();
+    // Remove fruit if it no longer has a name
+    if (!value) {
+      this.remove(user, setting);
+      return;
+    }
+    // Edit existing fruit
+    const index = user.settings.indexOf(value);
+    if (index >= 0) {
+      user.settings[index] = value;
+    }
+    user.editing = true;
+  }
+  add(user:User, event:any){
+    const value = (event.value || '').trim();
+    if (!user.settings){
+      user.settings = new Array<string>();
+    }
+    // Add our fruit
+    if (value) {
+      user.settings.push(value);
+    }
+    // Clear the input value
+    event.chipInput!.clear();
+    user.editing = true;
+  }
 }

@@ -8,6 +8,7 @@ export interface User {
   fullName:string;
   password:string;
   profilePicture:string;
+  settings:Array<string>;
   //UI Properties
   opened:boolean;
   editing:boolean;

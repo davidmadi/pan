@@ -39,6 +39,28 @@
           </mat-form-field>
         </div>
         <div class="ml-1">
+          <mat-form-field class="example-chip-list" appearance="fill">
+            <mat-label>Settings</mat-label>
+            <mat-chip-grid #chipGrid aria-label="Enter fruits">
+              <mat-chip-row *ngFor="let setting of user.settings"
+                            (removed)="remove(user, setting)"
+                            [editable]="true"
+                            (edited)="edit(user, setting, $event)"
+                            [aria-description]="'press enter to edit ' + setting">
+                {{setting}}
+                <button matChipRemove [attr.aria-label]="'remove ' + setting">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+              <input placeholder="New setting..."
+                    [matChipInputFor]="chipGrid"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="true"
+                    (matChipInputTokenEnd)="add(user, $event)"/>
+            </mat-chip-grid>
+          </mat-form-field>
+        </div>
+        <div class="ml-1">
           <button mat-raised-button [color]="(!user.editing) ? 'primary' : 'accent'" (click)="saveUser(user)">Save</button>
         </div>
         <div class="ml-1">

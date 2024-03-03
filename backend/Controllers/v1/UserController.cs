@@ -54,8 +54,9 @@ public class UserController : ControllerBase
                 dbUser.Email = user.Email;
                 dbUser.FullName = user.FullName;
                 dbUser.ProfilePicture = user.ProfilePicture;
+                dbUser.Settings = user.Settings;
+                dbUser.Save(db);
             }
-            db.SaveChanges();
             return new Response<User>()
             {
                 Result = dbUser,

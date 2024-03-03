@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Xml.Linq;
+using Amazon.S3.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Npgsql;
@@ -26,8 +29,32 @@ namespace Library.Entity.Access
     public string? FullName { get; set; }
     public string? ProfilePicture { get; set; }
 
+    [NotMapped]
+    public List<string>? Settings { 
+      get
+      {
+        if (DBSettings != null) {
+          return JsonSerializer.Deserialize<List<string>>(this.DBSettings);
+        }
+        return new List<string>();
+      } 
+      set
+      {
+        this.DBSettings = JsonSerializer.Serialize(value);
+      }
+    }
+    
+    [JsonIgnore]
+    [Column("Settings")]
+    public string? DBSettings { get; set; }
+
     [JsonIgnore]
     public string? Password { get; set; }
+
+    public int Save(PostgresContext db){
+      this.DBSettings = JsonSerializer.Serialize(this.Settings);
+      return db.SaveChanges();
+    }
   }
 
 }

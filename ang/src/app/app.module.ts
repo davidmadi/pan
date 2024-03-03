@@ -20,6 +20,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { UserFriendsListComponent } from './user-friends-list/user-friends-list.component';
 import {MatSelectModule} from '@angular/material/select';
 import { ProfilePictureComponent } from './components/profile-picture/profile-picture.component';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ProfilePictureComponent } from './components/profile-picture/profile-pi
     MatDialogModule,
     HttpClientModule,
     MatPaginatorModule,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
