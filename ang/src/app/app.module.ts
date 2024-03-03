@@ -21,6 +21,7 @@ import { UserFriendsListComponent } from './user-friends-list/user-friends-list.
 import {MatSelectModule} from '@angular/material/select';
 import { ProfilePictureComponent } from './components/profile-picture/profile-picture.component';
 import {MatChipsModule} from '@angular/material/chips';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {MatChipsModule} from '@angular/material/chips';
     UserListComponent,
     UploadFileComponent,
     UserFriendsListComponent,
-    ProfilePictureComponent
+    ProfilePictureComponent,
+    HomeComponent
   ],
   imports: [
     FormsModule,
