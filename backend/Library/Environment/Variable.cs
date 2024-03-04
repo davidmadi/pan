@@ -11,6 +11,8 @@ public class Variable
   public string? PostgresDB { get{ return Get("POSTGRES_DB"); }  }
   public string? PostgresUser { get{ return Get("POSTGRES_USER"); }  }
   public string? PostgresPassword { get{ return Get("POSTGRES_PASSWORD"); }  }
+  public string? StripeSK { get{ return Get("STRIPE_SK"); }  }
+  public string? StripePK { get{ return Get("STRIPE_PK"); }  }
   public static string? Get(string name) {
     return Environment.GetEnvironmentVariable(name);
   }

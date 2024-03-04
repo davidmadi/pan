@@ -22,6 +22,8 @@ import {MatSelectModule} from '@angular/material/select';
 import { ProfilePictureComponent } from './components/profile-picture/profile-picture.component';
 import {MatChipsModule} from '@angular/material/chips';
 import { HomeComponent } from './home/home.component';
+import { UserPaymentsComponent } from './user-payments/user-payments.component';
+import { UserMakePaymentComponent } from './user-make-payment/user-make-payment.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { HomeComponent } from './home/home.component';
     UploadFileComponent,
     UserFriendsListComponent,
     ProfilePictureComponent,
-    HomeComponent
+    HomeComponent,
+    UserPaymentsComponent,
+    UserMakePaymentComponent
   ],
   imports: [
     FormsModule,
