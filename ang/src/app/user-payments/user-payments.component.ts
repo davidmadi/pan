@@ -16,16 +16,15 @@ export class UserPaymentsComponent {
   }
 
   ngOnInit(): void {
-    this.reload();
+    this.initUser();
   }
 
-  private reload(){
-    // this.route.params.pipe(map((p) => {
-    //   return p['id']
-    // })).subscribe((idVal:string)=>{
-    //   new UserContext().Find(Number(idVal)).then((result)=>{
-    //     this.user = result;
-    //   });
-    // });
+  initUser():void {
+    this.route.params.pipe(map((p) => {
+      return p['id']
+    })).subscribe((idVal:string)=>{
+      this.user.id = Number(idVal);
+    });
   }
+
 }
